@@ -289,8 +289,8 @@
     var lanes = [
       { k: 'jun', from: 'P7', years: 3, note: 'Three years after Primary 7. Counts as equal to O-level (UCE).' },
       { k: 'nat', from: 'S4', years: 2, note: 'Two years after Senior 4 (UCE).' },
-      { k: 'app', from: null, doing: 'Learning by doing, beside skilled workers', note: 'Practical skills that UVTAB can assess and certify.' },
-      { k: 'wsa', from: null, doing: 'Learning by doing real jobs in a workshop', note: 'Practical skills that UVTAB can assess and certify.' }
+      { k: 'app', from: null, doing: 'Learning by doing, beside skilled workers', note: 'Skills UVTAB can assess and certify, equal to a formal qualification.' },
+      { k: 'wsa', from: null, doing: 'Learning by doing real jobs in a workshop', note: 'Skills UVTAB can assess and certify, equal to a formal qualification.' }
     ];
     var DY = 184, XB = 610, BW = 280, bands = {};
     lanes.forEach(function (L, li) {
@@ -396,7 +396,7 @@
     pickRow(r2, 'Goal', [{ k: 'deg', label: 'A degree' }, { k: 'teach', label: 'Teach my trade' }], function (k) { goal = k; draw(); }, goal);
     var holder = H('div', null, null, root);
     var sum = H('div', 'kpis', null, root);
-    src(root, 'Programmes: Uganda Martyrs University (2026a, 2026b) and UVTAB diploma list (PML Daily, 2026). The craft level for Junior Certificate holders is shown as about two years, like today’s National Certificate. Apprentices: skills gained by doing can be assessed and certified by UVTAB, and assessed skills to level 3 open a diploma (Kyobe, 2026; Nafula, 2026b).');
+    src(root, 'Programmes: Uganda Martyrs University (2026a, 2026b) and UVTAB diploma list (PML Daily, 2026). The craft level for Junior Certificate holders is shown as about two years, like today’s National Certificate. Apprentices: skills gained by doing can be assessed and certified by UVTAB as the same qualification formal training gives, and assessed skills to level 3 open a diploma (Kyobe, 2026; Mutebi & Kasakya, 2026; Nafula, 2026b).');
     function draw() {
       startRow._set(state.start);
       var tr = TRADES[state.trade], R = tr.route, col = tr.col;
@@ -557,7 +557,7 @@
   VIZ.doors = function (root) {
     var doors = [
       { t: 'National Craftsperson Certificate', s: 'craft certificate, or its equivalent', d: 'The main door. Bring certified copies of your certificate and transcript.' },
-      { t: 'Assessed skills', s: 'prior learning or credit transfer, to level 3', d: 'For apprentices and people who learnt on the job. Your skills are assessed and counted up to competence level 3.' },
+      { t: 'Assessed skills', s: 'prior learning or credit transfer, to level 3', d: 'For apprentices and people who learnt on the job. Your skills are assessed and counted up to competence level 3, and the certificate equals one from formal training.' },
       { t: 'A-level (UACE)', s: '1 principal pass and 2 subsidiary passes', d: 'For those who went the school route. Core subjects or a related project.' }
     ];
     var s = svg(1160, 380, root);
@@ -980,42 +980,44 @@
   };
 
   /* ---------- 2. the qualifications framework, as set by the TVET Act 2025 ---------- */
+  /* the eight UTQF levels: award and job title at the workplace (Mutebi & Kasakya, 2026) */
   var FW_TVET = [
-    { k: 'mod', t: 'Module or Worker’s PAS', tag: 'Part certificate', st: ['In use now'], who: 'UVTAB', where: 'Any TVET provider. Skills learnt at work or in an apprenticeship count.', entry: 'No entry rule. You are assessed on one or more modules of your trade, or on the full occupation.', more: 'A first step for apprentices and people who learnt on the job. In the older vocational framework (UVQF), full certificates ran from level 1 to level 3 and the national diploma sat at level 4.', job: 0 },
-    { k: 'art', t: 'Artisan certificate', tag: 'Certificate, level 2', st: ['New TVET framework'], who: 'UVTAB', where: 'Vocational training institutes and skills development centres.', entry: 'Three years after P7, or skills shown through recognition of prior learning.', more: 'Officials compare it to S4. A Junior Certificate (three years after P7, equal to UCE) sits at about this height.', job: 0 },
-    { k: 'craft', t: 'National Craftsperson Certificate', tag: 'Certificate', st: ['TVET Act 2025'], who: 'UVTAB', where: 'Vocational training institutes and skills development centres. It is the top award of lower TVET.', entry: 'An artisan certificate, S4, or assessed skills.', more: 'Officials compare craft certificates to S6. A National Certificate sits at about this height; ask admissions offices to confirm it counts as equivalent.', job: 1 },
-    { k: 'ntd', t: 'National Technician Diploma', tag: 'Diploma', st: ['TVET Act 2025'], who: 'UVTAB', where: 'Technical colleges.', entry: 'A craft certificate or equivalent, skills assessed to level 3, or A-level; then an interview or practical test.', more: 'About two years full time. The TVET Council approved 17 new curricula in September 2026.', job: 2 },
-    { k: 'nhd', t: 'National Higher Diploma', tag: 'Higher diploma', st: ['TVET Act 2025'], who: 'National polytechnics', where: 'National polytechnics.', entry: 'A national diploma from a TVET institution.', more: 'Universities may not offer TVET programmes at this level or above.', job: 3 },
-    { k: 'ntu', t: 'National Technical University', tag: 'Bachelor’s to PhD', st: ['TVET Act 2025'], who: 'National Technical University', where: 'The National Technical University that the Act provides for.', entry: 'Set by the university.', more: 'A route to a degree that stays inside TVET.', job: 4 }
+    { k: 'bcc', lv: 1, t: 'Basic Competency Certificate', title: 'Basic worker', st: ['UTQF'], who: 'UVTAB', where: 'Vocational training institutes and skills development centres.', entry: 'Foundational occupational skills. Skills you already have can be assessed through recognition of prior learning.', more: 'The first rung of the new framework. Modules and the Worker’s PAS played this role in the older framework.', job: 0 },
+    { k: 'art', lv: 2, t: 'National Artisan Certificate', title: 'Artisan', st: ['UTQF'], who: 'UVTAB', where: 'Vocational training institutes and skills development centres.', entry: 'Three years after P7, or skills shown through recognition of prior learning.', more: 'Officials compare it to S4. A Junior Certificate (three years after P7, equal to UCE) sits at about this height.', job: 0 },
+    { k: 'craft', lv: 3, t: 'National Craftsperson Certificate', title: 'Craftsperson', st: ['UTQF', 'TVET Act 2025'], who: 'UVTAB', where: 'Vocational training institutes and skills development centres. It is the top award of lower TVET.', entry: 'An artisan certificate, S4, or assessed skills.', more: 'Officials compare craft certificates to S6. A National Certificate sits at about this height; ask admissions offices to confirm it counts as equivalent.', job: 1 },
+    { k: 'ntd', lv: 4, t: 'National Technician Diploma', title: 'Technician', st: ['UTQF', 'TVET Act 2025'], who: 'UVTAB', where: 'Technical colleges.', entry: 'A craft certificate or equivalent, skills assessed to level 3, or A-level; then an interview or practical test.', more: 'About two years full time. The TVET Council approved 17 new curricula in September 2026.', job: 2 },
+    { k: 'nhd', lv: 5, t: 'National Higher Diploma', title: 'Master technician', st: ['UTQF', 'TVET Act 2025'], who: 'National polytechnics', where: 'National polytechnics.', entry: 'A national diploma from a TVET institution.', more: 'Example from the TVET Council: a fleet officer who plans fleet operations on their own, manages budgets and equipment, and answers for overall fleet performance. Universities may not offer TVET programmes at this level or above.', job: 3 },
+    { k: 'btech', lv: 6, t: 'Bachelor of Technology', title: 'Technologist', st: ['UTQF', 'TVET Act 2025'], who: 'National Technical University', where: 'The National Technical University that the Act provides for.', entry: 'Set by the university.', more: 'A technologist designs and improves systems, processes or services, using research and data. A route to a degree that stays inside TVET.', job: 4 },
+    { k: 'mtech', lv: 7, t: 'Master of Technology', title: 'Master technologist', st: ['UTQF', 'TVET Act 2025'], who: 'National Technical University', where: 'The National Technical University that the Act provides for.', entry: 'Set by the university.', more: 'Advanced professional and technological practice.', job: 5 },
+    { k: 'dprac', lv: 8, t: 'Doctorate of Practice', title: 'Chief technologist', st: ['UTQF', 'TVET Act 2025'], who: 'National Technical University', where: 'The National Technical University that the Act provides for.', entry: 'Set by the university.', more: 'The top of the TVET ladder: the highest level of technological practice.', job: 5 }
   ];
   var FW_UNI = [
-    { k: 'udip', row: 3, t: 'University diploma', tag: 'Diploma', st: ['In use now'], who: 'The university', where: 'Universities, for example Uganda Martyrs University (Fort Portal) for civil and mechanical engineering.', entry: 'A-level, or a certificate with a credit or second class in a related field.', more: 'About two years.', job: 2 },
-    { k: 'bach', row: 5, t: 'Bachelor’s degree', tag: 'Bachelor’s', st: ['In use now'], who: 'The university', where: 'Uganda Martyrs University and other universities.', entry: 'Two A-level principal passes, or a diploma with a credit or second class.', more: 'Three to four years. Some universities let diploma holders skip year one.', job: 4 },
-    { k: 'pgd', row: 6, t: 'Postgraduate diploma', tag: 'After a degree', st: ['In use now'], who: 'The university or institute', where: 'Universities and institutes, for example Uganda Management Institute.', entry: 'A degree.', more: 'Often one year, studied while working.', job: 4 },
-    { k: 'mast', row: 7, t: 'Master’s degree', tag: 'Master’s', st: ['In use now'], who: 'The university', where: 'Universities in Uganda and abroad.', entry: 'A degree.', more: 'Often part time, alongside work.', job: 5 },
-    { k: 'phd', row: 8, t: 'PhD or doctorate', tag: 'Doctorate', st: ['In use now'], who: 'The university', where: 'Universities in Uganda and abroad.', entry: 'A master’s degree.', more: 'Original research that adds new knowledge.', job: 5 }
+    { k: 'udip', row: 3, t: 'University diploma', tag: 'Diploma', st: ['In use now'], who: 'The university', where: 'Universities, for example Uganda Martyrs University (Fort Portal) for civil, electrical, water and mechanical engineering.', entry: 'A-level, or a certificate with a credit or second class in a related field.', more: 'About two years.', job: 2 },
+    { k: 'bach', row: 5, t: 'Bachelor’s degree', tag: 'Bachelor’s', st: ['In use now'], who: 'The university', where: 'Uganda Martyrs University and other universities.', entry: 'Two A-level principal passes, or a diploma with a credit or second class.', more: 'Three to four years. Some universities let diploma holders skip year one. After it you can take a postgraduate diploma (often one year, while working) or a master’s.', job: 4 },
+    { k: 'mast', row: 6, t: 'Master’s degree', tag: 'Master’s', st: ['In use now'], who: 'The university', where: 'Universities in Uganda and abroad.', entry: 'A degree.', more: 'Often part time, alongside work.', job: 5 },
+    { k: 'phd', row: 7, t: 'PhD or doctorate', tag: 'Doctorate', st: ['In use now'], who: 'The university', where: 'Universities in Uganda and abroad.', entry: 'A master’s degree.', more: 'Original research that adds new knowledge.', job: 5 }
   ];
   var FW_BRIDGE = {
     dhe: { t: 'Diploma-holder entry', d: 'A diploma with a credit or second class lets you apply for a bachelor’s degree. Some universities admit diploma holders straight into year two.' },
-    cats: { t: 'Credit transfer', d: 'Credits you have earned move with you to another programme or provider, so you do not repeat what you already passed. In the draft national framework, 1 credit unit is 10 hours of learning and a full year is 120 credits.' },
-    rpl: { t: 'Recognition of prior learning', d: 'Skills learnt at work, through a portfolio, interview and assessment, can count toward a certificate or toward entry to a diploma (skills assessed to level 3).' },
+    cats: { t: 'Credit transfer', d: 'Credits you have earned move with you to another programme or provider, so you do not repeat what you already passed. The new TVET Credit Transfer System (TCTS) will let trainees collect credits and move them between institutions (Mutebi & Kasakya, 2026). In the draft national framework, 1 credit unit is 10 hours of learning and a full year is 120 credits.' },
+    rpl: { t: 'Recognition of prior learning', d: 'A mechanic in Katwe, a carpenter in Mbale or a tailor in Mbarara can have existing skills assessed against national standards. The certificate is the same qualification, with the same opportunities and privileges, as one earned after years of formal training (Mutebi & Kasakya, 2026). Skills assessed to level 3 also open a diploma.' },
     mat: { t: 'Mature age entry', d: 'Adults without the usual school papers can sit an entry examination for a university degree, where the university offers it.' }
   };
-  var STCOL = { 'TVET Act 2025': C.tvet, 'New TVET framework': '#2f69bf', 'In use now': C.money, 'Draft': C.muted };
+  var STCOL = { 'UTQF': '#2f69bf', 'TVET Act 2025': C.tvet, 'In use now': C.money, 'Draft': C.muted };
   VIZ.framework = function (root) {
     var top = H('div', 'ctl', null, root);
     var startRow = pickRow(top, 'I completed', startItems(), function (k) { stop(); setStart(k); }, state.start);
     var playBtn = H('button', 'play', 'Show a route to the top', top);
-    var s = svg(1160, 418, root);
-    var X1 = 236, X2 = 600, U1 = 744, U2 = 1156, RH = 36, GAP = 6, BOT = 416;
+    var s = svg(1160, 378, root);
+    var X1 = 236, X2 = 600, U1 = 744, U2 = 1156, RH = 36, GAP = 6, BOT = 376;
     function ry(row) { return BOT - (row + 1) * (RH + GAP); }
     T(s, (X1 + X2) / 2, 18, 'TVET', { 'font-size': 20, 'font-weight': 700, 'text-anchor': 'middle', fill: C.tvet });
-    T(s, U1 - 14, ry(8) + 24, 'University', { 'font-size': 20, 'font-weight': 700, 'text-anchor': 'end', fill: C.uni });
+    T(s, U1 - 14, ry(7) + 24, 'University', { 'font-size': 20, 'font-weight': 700, 'text-anchor': 'end', fill: C.uni });
     var nodes = {}, all = [];
     /* tier bands for lower and upper TVET, from s. 31 of the Act */
     var tiers = [
       { k: 'low', t: 'Lower TVET', from: 0, to: 2, d: 'Vocational education and training. Vocational training institutes and skills development centres award the National Craftsperson Certificate and below (TVET Act 2025, s. 31).' },
-      { k: 'up', t: 'Upper TVET', from: 3, to: 5, d: 'Technical education and training. Technical colleges award the National Technician Diploma and below; national polytechnics the National Higher Diploma and below; the National Technical University degrees and postgraduate awards (TVET Act 2025, s. 31).' }
+      { k: 'up', t: 'Upper TVET', from: 3, to: 7, d: 'Technical education and training. Technical colleges award the National Technician Diploma and below; national polytechnics the National Higher Diploma and below; the National Technical University the Bachelor of Technology, Master of Technology and Doctorate of Practice (TVET Act 2025, s. 31; Mutebi & Kasakya, 2026).' }
     ];
     tiers.forEach(function (tr) {
       var g = S('g', { class: 'hit' }, s);
@@ -1032,14 +1034,14 @@
       var y = ry(row);
       var r = S('rect', { x: x1, y: y, width: x2 - x1, height: RH, rx: 6, fill: col, 'stroke-width': 4 }, g);
       T(g, x1 + 14, y + 24, item.t, { 'font-size': 17, fill: '#fff', 'font-weight': 500 });
-      T(g, x2 - 12, y + 24, item.tag, { 'font-size': 14, fill: '#fff', 'text-anchor': 'end', opacity: 0.85 });
+      T(g, x2 - 12, y + 24, item.lv ? 'Level ' + item.lv : item.tag, { 'font-size': 14, fill: '#fff', 'text-anchor': 'end', opacity: 0.85, 'font-weight': item.lv ? 700 : 400 });
       g.addEventListener('click', function () { stop(); select({ item: item, r: r }); });
       nodes[item.k] = { r: r, x1: x1, x2: x2, y: y, item: item };
       all.push({ r: r });
     }
-    var tcol = ['#7d9fd6', '#3d78cf', '#2f69bf', '#1f5fbf', '#174a96', '#123c7c'];
+    var tcol = ['#8eaadb', '#7d9fd6', '#3d78cf', '#2f69bf', '#1f5fbf', '#174a96', '#123c7c', '#0d2f63'];
     FW_TVET.forEach(function (it, i) { rung(it, X1, X2, i, tcol[i]); });
-    var ucol = { udip: '#3a9466', bach: '#1d7a4c', pgd: '#187046', mast: '#145c39', phd: '#0f4a2e' };
+    var ucol = { udip: '#3a9466', bach: '#1d7a4c', mast: '#145c39', phd: '#0f4a2e' };
     FW_UNI.forEach(function (it) { rung(it, U1, U2, it.row, ucol[it.k]); });
     /* skills from work */
     var wy = ry(0);
@@ -1047,8 +1049,9 @@
     var wr = S('rect', { x: U1, y: wy - 44, width: U2 - U1, height: RH + 44, rx: 8, fill: C.money2, 'stroke-width': 4 }, wg);
     T(wg, (U1 + U2) / 2, wy - 14, 'Skills learnt at work', { 'font-size': 18, 'font-weight': 700, fill: C.money, 'text-anchor': 'middle' });
     T(wg, (U1 + U2) / 2, wy + 12, 'apprenticeships and every workplace', { 'font-size': 15, fill: C.money, 'text-anchor': 'middle' });
-    var workItem = { k: 'work', t: 'Skills learnt at work', tag: 'Any time', st: ['In use now'], who: 'UVTAB assesses them', where: 'Your workplace.', entry: 'None.', more: 'Work experience is learning. Through recognition of prior learning it can turn into a certificate, and it strengthens any application.', job: 1 };
+    var workItem = { k: 'work', t: 'Skills learnt at work', tag: 'Any time', st: ['UTQF'], who: 'UVTAB assesses them', where: 'Your workplace, apprenticeship or training workshop.', entry: 'None.', more: 'Work experience is learning. Through recognition of prior learning it turns into the same certificate formal training gives. You can step out to work and back into training at any level.', job: 1 };
     wg.addEventListener('click', function () { stop(); select({ item: workItem, r: wr }); });
+    nodes.work = { r: wr, x1: U1, x2: U2, y: wy - 22, item: workItem };
     all.push({ r: wr });
     /* bridges */
     var bridges = {};
@@ -1076,7 +1079,7 @@
     T(mlab, -76, 6, 'You are here', { 'font-size': 14, fill: '#fff', 'text-anchor': 'middle', 'font-weight': 500 });
     /* detail card */
     var card = H('div', 'card fwcard', null, root);
-    src(root, 'Tiers and awarding bodies: Technical and Vocational Education and Training Act (2025, ss. 28, 31, 77). Artisan level: Kazibwe (2026). Older levels: Directorate of Industrial Training (n.d.). University entry: Uganda Martyrs University (2026a). Bridges: Uganda Vice Chancellors’ Forum (2025). Rungs side by side show order, not official equivalence.');
+    src(root, 'Levels, awards and job titles: Uganda TVET Qualifications Framework (Mutebi & Kasakya, 2026). Tiers and awarding bodies: Technical and Vocational Education and Training Act (2025, ss. 28, 31, 77). School comparisons: Kazibwe (2026). Older levels: Directorate of Industrial Training (n.d.). University entry: Uganda Martyrs University (2026a). Bridges: Uganda Vice Chancellors’ Forum (2025). Rungs side by side show order, not official equivalence.');
     var cur = null;
     function clear() {
       all.forEach(function (a) { a.r.setAttribute('stroke', 'none'); });
@@ -1091,9 +1094,9 @@
         o.r.setAttribute('stroke', C.ink);
         var it = o.item;
         card.style.borderColor = FW_UNI.indexOf(it) >= 0 ? C.uni : (it.k === 'work' ? C.money : C.tvet);
-        card.innerHTML = '<h4>' + it.t + ' ' + chips(it.st) + '</h4>' +
+        card.innerHTML = '<h4>' + (it.lv ? 'Level ' + it.lv + ': ' : '') + it.t + ' ' + chips(it.st) + '</h4>' +
           '<div class="fwgrid"><p><b>Awarded by</b>' + it.who + '</p><p><b>Where</b>' + it.where + '</p><p><b>Entry</b>' + it.entry + '</p>' +
-          '<p><b>In ' + tr.name.toLowerCase() + '</b>' + tr.jobs[it.job] + '</p></div><p class="note">' + it.more + '</p>';
+          (it.title ? '<p><b>Job title at work</b>' + it.title + '; in ' + tr.name.toLowerCase() + ', for example ' + tr.jobs[it.job].toLowerCase() + '</p>' : '<p><b>In ' + tr.name.toLowerCase() + '</b>' + tr.jobs[it.job] + '</p>') + '</div><p class="note">' + it.more + '</p>';
       } else if (o.tier) {
         o.r.setAttribute('stroke', C.ink);
         card.style.borderColor = C.tvet;
@@ -1107,7 +1110,7 @@
     }
     function place() {
       startRow._set(state.start);
-      var n = nodes[{ jun: 'art', nat: 'craft', app: 'mod', wsa: 'mod' }[state.start]];
+      var n = nodes[{ jun: 'art', nat: 'craft', app: 'work', wsa: 'work' }[state.start]];
       shown = state.start;
       marker.setAttribute('transform', 'translate(' + (n.x1 - 4) + ',' + (n.y + RH / 2) + ')');
       select({ item: n.item, r: n.r });
@@ -1116,7 +1119,7 @@
     function stop() { clearInterval(tm); tm = null; }
     playBtn.addEventListener('click', function () {
       stop();
-      var seq = { jun: ['art', 'craft', 'ntd', 'B:dhe', 'bach', 'mast', 'phd'], nat: ['craft', 'ntd', 'B:dhe', 'bach', 'mast', 'phd'], app: ['mod', 'B:rpl', 'ntd', 'B:dhe', 'bach', 'mast', 'phd'] }[STARTS[state.start].appr ? 'app' : state.start];
+      var seq = { jun: ['art', 'craft', 'ntd', 'B:dhe', 'bach', 'mast', 'phd'], nat: ['craft', 'ntd', 'B:dhe', 'bach', 'mast', 'phd'], app: ['work', 'B:rpl', 'craft', 'ntd', 'nhd', 'btech', 'mtech', 'dprac'] }[STARTS[state.start].appr ? 'app' : state.start];
       var i = 0;
       function step() {
         var k = seq[i];
@@ -1144,28 +1147,30 @@
     { k: 'Specialist knowledge and mastery of research.', s: 'High-level research; supervises and mentors others.', a: 'Helps set ethical and professional standards.' },
     { k: 'Creates and interprets new knowledge through original research.', s: 'Critical, creative work on hard problems.', a: 'Shapes ethical practice and community change.' }
   ];
-  /* the award at each level: draft UNQF qualification pathways, with the TVET framework for levels 2 and 3 */
+  /* the award and job title at each level of the UTQF (Mutebi & Kasakya, 2026) */
   var AWARDS = [
-    { a: 'Primary (PLE)', d: 'Primary Leaving Examination (PLE); foundation literacy and numeracy' },
-    { a: 'Certificate', d: 'O-level (UCE); artisan certificate (level 2 in the TVET framework). A Junior Certificate sits about here.' },
-    { a: 'Certificate', d: 'A-level (UACE); craft certificate, such as the National Craftsperson Certificate; higher education certificate. A National Certificate sits about here.' },
-    { a: 'Diploma', d: 'Diploma, such as the National Technician Diploma or a university diploma' },
-    { a: 'Higher diploma', d: 'Higher diploma, such as the National Higher Diploma' },
-    { a: 'Bachelor’s', d: 'Bachelor’s degree; postgraduate diploma' },
-    { a: 'Master’s', d: 'Master’s degree' },
-    { a: 'PhD', d: 'PhD or doctorate' }
+    { a: 'Certificate', aw: 'Basic Competency Certificate', j: 'Basic worker' },
+    { a: 'Certificate', aw: 'National Artisan Certificate', j: 'Artisan', note: 'Officials compare it to S4. A Junior Certificate sits about here.' },
+    { a: 'Certificate', aw: 'National Craftsperson Certificate', j: 'Craftsperson', note: 'Officials compare it to S6. A National Certificate sits about here.' },
+    { a: 'Diploma', aw: 'National Technician Diploma', j: 'Technician' },
+    { a: 'Higher diploma', aw: 'National Higher Diploma', j: 'Master technician' },
+    { a: 'Bachelor’s', aw: 'Bachelor of Technology', j: 'Technologist' },
+    { a: 'Master’s', aw: 'Master of Technology', j: 'Master technologist' },
+    { a: 'Doctorate', aw: 'Doctorate of Practice', j: 'Chief technologist' }
   ];
   VIZ.levels = function (root) {
-    var s = svg(1160, 286, root);
+    var s = svg(1160, 306, root);
     var cols = [];
-    var fills = ['#9db7e3', '#7d9fd6', '#3d78cf', '#2f69bf', '#1f5fbf', '#174a96', '#1d7a4c', '#145c39'];
+    var fills = ['#9db7e3', '#7d9fd6', '#3d78cf', '#2f69bf', '#1f5fbf', '#174a96', '#123c7c', '#0d2f63'];
     LEVELS.forEach(function (L, i) {
       var x = i * 145, h = 50 + i * 25, y = 246 - h;
       var g = S('g', { class: 'hit' }, s);
-      S('rect', { x: x, y: 0, width: 140, height: 286, fill: 'transparent' }, g);
+      S('rect', { x: x, y: 0, width: 140, height: 306, fill: 'transparent' }, g);
       var r = S('rect', { x: x, y: y, width: 140, height: h, rx: 4, fill: fills[i], 'stroke-width': 5 }, g);
       T(g, x + 14, y + 38, String(i + 1), { 'font-size': 34, 'font-weight': 700, fill: '#fff' });
-      T(g, x + 70, 276, AWARDS[i].a, { 'font-size': 19, 'font-weight': 700, fill: fills[i] === '#9db7e3' ? '#5d7fb8' : fills[i], 'text-anchor': 'middle' });
+      var lc = fills[i] === '#9db7e3' ? '#5d7fb8' : fills[i];
+      T(g, x + 70, 274, AWARDS[i].a, { 'font-size': 19, 'font-weight': 700, fill: lc, 'text-anchor': 'middle' });
+      T(g, x + 70, 298, AWARDS[i].j, { 'font-size': 15, fill: C.soft, 'text-anchor': 'middle' });
       g.addEventListener('click', function () { show(i); });
       cols.push(r);
     });
@@ -1180,13 +1185,14 @@
     var res = H('p', 'note', '', root);
     pickRow(q, '', opts, function (k) {
       show(k);
-      res.innerHTML = 'That sounds closest to <b>level ' + (k + 1) + '</b> of the draft. Use it as a talking point with a mentor, not as an official level.';
+      res.innerHTML = 'That sounds closest to <b>level ' + (k + 1) + ', ' + AWARDS[k].j.toLowerCase() + '</b>. Use it as a talking point with a mentor; only an assessment gives you an official level.';
     }, null);
-    src(root, 'Draft Uganda National Qualifications Framework, 8 levels, and its qualification pathways (Uganda Vice Chancellors’ Forum, 2025). Artisan and craft placements: Kazibwe (2026); officials say comparisons below the diploma are still under discussion. An earlier 2024 draft described 9 levels (Uganda National Commission for UNESCO, n.d.). In November 2026 officials said the national framework was still being developed (Kazibwe, 2026).');
+    src(root, 'Levels, awards and job titles: Uganda TVET Qualifications Framework (Mutebi & Kasakya, 2026). Knowledge, skills and attitude: the draft Uganda National Qualifications Framework, which also has 8 levels (Uganda Vice Chancellors’ Forum, 2025). School comparisons: Kazibwe (2026), still under discussion.');
     function show(i) {
       cols.forEach(function (r, j) { r.setAttribute('stroke', j === i ? C.ink : 'none'); });
       var L = LEVELS[i];
-      grid.innerHTML = '<div class="lvnum" style="color:' + fills[i] + '">Level ' + (i + 1) + '<span class="lvaw">' + AWARDS[i].d + '</span></div>' +
+      var A = AWARDS[i];
+      grid.innerHTML = '<div class="lvnum" style="color:' + fills[i] + '">Level ' + (i + 1) + '<span class="lvaw"><b class="lvawn">' + A.aw + '</b>Job title at work: ' + A.j.toLowerCase() + (A.note ? '. ' + A.note : '') + '</span></div>' +
         '<div><b>Knowledge</b>' + L.k + '</div><div><b>Skills and responsibility</b>' + L.s + '</div><div><b>Attitude and behaviour</b>' + L.a + '</div>';
     }
     show(2);
